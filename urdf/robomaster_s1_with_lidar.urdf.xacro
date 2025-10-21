@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<robot name="robomaster_s1" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#xacro">
+
+  <xacro:arg name="name" default=""/>
+  <xacro:property name="_name" value="$(arg name)"/>
+  <xacro:if value="${_name != ''}">
+    <xacro:property name="tf_prefix" value="${_name}/"/>
+  </xacro:if>
+  <xacro:if value="${_name == ''}">
+    <xacro:property name="tf_prefix" value=""/>
+  </xacro:if>
+
+  <!-- Include original Robomaster S1 components -->
+  <xacro:include filename="$(find robomaster_description)/urdf/base.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/gimbal.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/camera.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/intelligent_controller.urdf.xacro"/>
+  <xacro:include filename="$(find robomaster_description)/urdf/tof.urdf.xacro"/>
+
+  <!-- Include Gazebo configuration -->
+  <xacro:include filename="$(find robomaster_description)/urdf/robomaster_s1.gazebo.xacro"/>
+
+  <!-- Include Livox MID-360 -->
+  <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro"/>
+
+  <!-- Instantiate Robomaster S1 components -->
+  <xacro:base tf_prefix="${tf_prefix}"/>
+  <xacro:gimbal tf_prefix="${tf_prefix}"/>
+  <xacro:camera tf_prefix="${tf_prefix}" mount="gimbal"/>
+  <xacro:intelligent_controller tf_prefix="${tf_prefix}" mount="gimbal"/>
+
+  <xacro:add_tof index="0" tf_prefix="${tf_prefix}"/>
+  <xacro:add_tof index="1" tf_prefix="${tf_prefix}"/>
+  <xacro:add_tof index="2" tf_prefix="${tf_prefix}"/>
+  <xacro:add_tof index="3" tf_prefix="${tf_prefix}"/>
+
+  <!-- Add Livox MID-360 on top of the robot -->
+  <xacro:mid360 name="${tf_prefix}livox" parent="${tf_prefix}base_link" topic="/livox/lidar">
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+  </xacro:mid360>
+
+  <!-- Instantiate Gazebo materials -->
+  <xacro:robomaster_s1_gazebo tf_prefix="${tf_prefix}"/>
+
+</robot>
