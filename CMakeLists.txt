@@ -32,10 +32,15 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-# Install scripts
+# Install config files
+install(DIRECTORY
+  config
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install production scripts only (dev scripts are not installed)
 install(PROGRAMS
-  scripts/test_mecanum_control.py
-  scripts/verify_mecanum.sh
+  scripts/mecanum_teleop_keyboard.py
   scripts/cleanup_gazebo.sh
   DESTINATION lib/${PROJECT_NAME}
 )
