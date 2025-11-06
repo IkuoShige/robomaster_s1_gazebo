@@ -84,8 +84,6 @@ robomaster_s1_gazebo/
 │   └── s1_teleop_keyboard.launch.py     # キーボード操作
 ├── worlds/          # Gazeboワールドファイル
 │   └── iscas_museum.world
-├── urdf/            # ロボットURDFファイル
-│   └── robomaster_s1_with_lidar.urdf.xacro
 ├── scripts/         # ユーティリティスクリプト
 │   ├── mecanum_teleop_keyboard.py
 │   └── cleanup_gazebo.sh
